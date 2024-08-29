@@ -1,0 +1,15 @@
+env/
+venv/
+
+*.DS_Store
+*.log
+ntuser.*
+AppData/
+Contacts/
+Documents/
+Pictures/
+.vscode/
+__pycache__/
+*.pyc
+
+.idea/
