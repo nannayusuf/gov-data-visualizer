@@ -1,19 +1,25 @@
 import pandas as pd
 
 def clean_data(df):
-    columns_to_drop = ['id', 'document_id']
-    existing_columns = [col for col in columns_to_drop if col in df.columns]
+    # Verificar se as colunas esperadas estão presentes
+    required_columns = ['txnomeparlamentar', 'sgpartido', 'sguf', 'txtdescricao',
+                        'txtfornecedor', 'vlrdocumento', 'vlrglosa', 'vlrliquido', 'datemissao']
     
-    if existing_columns:
-        df = df.drop(columns=existing_columns)
+    for col in required_columns:
+        if col not in df.columns:
+            print(f"A coluna {col} não foi encontrada no DataFrame.")
+            return None
+    
+    # Converter a coluna de datas
+    if 'datemissao' in df.columns:
+        df['datemissao'] = pd.to_datetime(df['datemissao'])
 
-    if 'date' in df.columns:
-        df['date'] = pd.to_datetime(df['date'])
+    # Remover valores nulos nas colunas financeiras
+    df = df.dropna(subset=['vlrdocumento', 'vlrliquido'])
 
-    df = df.dropna(subset=['document_value', 'net_value'])
-
-    if 'date' in df.columns:
-        df['month'] = df['date'].dt.month
-        df['year'] = df['date'].dt.year
+    # Criar novas colunas para mês e ano
+    if 'datemissao' in df.columns:
+        df['month'] = df['datemissao'].dt.month
+        df['year'] = df['datemissao'].dt.year
 
     return df
