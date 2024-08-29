@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 
 def plot_expenses_by_deputy(df):
-    # Certifique-se de que as colunas corretas estão sendo usadas
     plt.figure(figsize=(10, 6))
     plt.bar(df['txnomeparlamentar'][:10], df['vlrliquido'][:10], color='skyblue')
     plt.xlabel('Deputado')
